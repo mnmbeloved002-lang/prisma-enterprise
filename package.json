@@ -44,5 +44,9 @@
       "prettier --write",
       "eslint --fix"
     ]
+  },
+  "engines": {
+    "node": "22.x",
+    "npm": ">=10.9"
   }
 }
