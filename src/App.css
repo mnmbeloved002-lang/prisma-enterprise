@@ -1,0 +1,11 @@
+:root {
+  font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Arial, "Noto Sans",
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 960px;
+  margin: 0 auto;
+}
