@@ -1,26 +1,7 @@
-# Purpose
+## ✅ Pull Request Checklist
 
-Опишите кратко цель PR.
-
-## Checklist
-
-- [ ] Код отформатирован и линт пройден: `npm run lint`
-- [ ] Проверка типов пройдена: `npm run typecheck`
-- [ ] Сборка успешна: `npm run build`
-- [ ] Безопасность: `npm run sec:check`
-- [ ] Обновлена документация (README/SETUP/ADR/CHANGELOG при необходимости)
-- [ ] Нет секретов/ключей в изменениях
-
-## Type of Change
-
-- [ ] feat
-- [ ] fix
-- [ ] docs
-- [ ] refactor
-- [ ] ci
-- [ ] test
-- [ ] chore
-
-## Screenshots / Notes
-
-(опционально)
+- [ ] Lint проходит (`npm run lint`)
+- [ ] Typecheck проходит (`npm run typecheck`)
+- [ ] Build успешен (`npm run build`)
+- [ ] Документация / комментарии обновлены (если нужно)
+- [ ] Без чувствительных данных или токенов в коде
