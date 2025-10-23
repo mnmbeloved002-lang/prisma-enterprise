@@ -14,7 +14,7 @@
     "check": "npm run sec:check && npm run lint && npm run typecheck && npm run build",
     "audit": "audit-ci --moderate",
     "lockfile:lint": "lockfile-lint -p package-lock.json -t npm --validate-https --allowed-hosts npm",
-    "pkg:lint": "npmPkgJsonLint .",
+    "pkg:lint": "npmPkgJsonLint --config .npmPkgJsonLintrc.json .",
     "sec:check": "npm run lockfile:lint && npm run pkg:lint && npm run audit"
   },
   "dependencies": {
