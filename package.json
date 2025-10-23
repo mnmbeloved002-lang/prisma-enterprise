@@ -17,7 +17,8 @@
     "pkg:lint": "npmPkgJsonLint --config .npmPkgJsonLintrc.json .",
     "sec:check": "npm run lockfile:lint && npm run pkg:lint && npm run audit",
     "cz": "cz",
-    "spell": "cspell --no-progress --no-summary --relative --cache ."
+    "spell": "cspell --no-progress --no-summary --relative --cache .",
+    "browserslist:update": "npx update-browserslist-db@latest --update-db"
   },
   "dependencies": {
     "react": "^19.1.1",
