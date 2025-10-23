@@ -5,26 +5,22 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import prettier from "eslint-config-prettier";
 import globals from "globals";
+import simpleImportSort from "eslint-plugin-simple-import-sort"; // 🆕 добавили плагин
 
-// 1) Глобальные игноры — применяются ко всем файлам
-const ignoreAll = {
-  ignores: [
-    "dist/**",
-    "node_modules/**",
-    "**/vite.config.*",
-    "**/*.config.*",
-    "**/*.d.ts",
-    "**/*.cjs",
-  ],
-};
-
-// 2) Основной конфиг — только исходники
-const appConfig = tseslint.config(
+export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,
   {
     files: ["src/**/*.{ts,tsx}"],
+    ignores: [
+      "dist",
+      "node_modules",
+      "**/vite.config.*",
+      "**/*.config.*",
+      "**/*.d.ts",
+      "**/*.cjs",
+    ],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -36,6 +32,7 @@ const appConfig = tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "simple-import-sort": simpleImportSort, // 🆕 зарегистрировали плагин
     },
     rules: {
       "no-unused-vars": "warn",
@@ -48,8 +45,10 @@ const appConfig = tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+
+      // 🆕 правила сортировки импортов и экспортов
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
     },
   },
 );
-
-export default [ignoreAll, ...appConfig];
