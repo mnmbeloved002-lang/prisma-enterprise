@@ -1,4 +1,5 @@
----
+## [![License: MIT+Attribution](https://img.shields.io/badge/license-MIT%2BAttribution-blue.svg)](./LICENSE)
+
 ### 🧾 License & Ownership
 
 **Licensed under MIT+Attribution 2025.1**  
