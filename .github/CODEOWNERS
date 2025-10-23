@@ -1,1 +1,7 @@
-* @mnmbeloved002-lang
+# Автоматическое назначение ревьюеров для всех файлов
+# Формат: <путь> <GitHub-логин или команда>
+
+* @mmmbeloved002-lang
+.github/ @mmmbeloved002-lang
+docs/ @mmmbeloved002-lang
+src/ @mmmbeloved002-lang
