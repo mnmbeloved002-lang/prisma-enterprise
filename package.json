@@ -11,7 +11,11 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run build"
+    "check": "npm run sec:check && npm run lint && npm run typecheck && npm run build",
+    "audit": "audit-ci --moderate",
+    "lockfile:lint": "lockfile-lint -p package-lock.json -t npm --validate-https --allowed-hosts npm",
+    "pkg:lint": "npmPkgJsonLint .",
+    "sec:check": "npm run lockfile:lint && npm run pkg:lint && npm run audit"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -27,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
     "@vitejs/plugin-react": "^5.0.4",
+    "audit-ci": "7.1.0",
     "editorconfig": "^3.0.1",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
@@ -36,6 +41,8 @@
     "globals": "^16.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.5",
+    "lockfile-lint": "4.14.1",
+    "npm-package-json-lint": "9.0.0",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "typescript": "~5.9.3",
@@ -52,5 +59,11 @@
   "engines": {
     "node": "22.x",
     "npm": ">=10.9"
+  },
+  "license": "MIT",
+  "description": "Prisma Enterprise — React + TypeScript + Vite foundation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnmbeloved002-lang/prisma-enterprise.git"
   }
 }
