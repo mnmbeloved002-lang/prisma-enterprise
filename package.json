@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
     "react": "^19.1.1",
