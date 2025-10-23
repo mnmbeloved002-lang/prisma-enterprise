@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en,ru",
+
+  "import": [
+    "@cspell/dict-ru_ru/cspell-ext.json",
+    "@cspell/dict-en_us/cspell-ext.json",
+    "@cspell/dict-software-terms/cspell-ext.json",
+    "@cspell/dict-node/cspell-ext.json",
+    "@cspell/dict-typescript/cspell-ext.json",
+    "@cspell/dict-npm/cspell-ext.json",
+    "@cspell/dict-html/cspell-ext.json",
+    "@cspell/dict-css/cspell-ext.json",
+    "@cspell/dict-git/cspell-ext.json"
+  ],
+
+  "wordsFile": "cspell.words.txt",
+  "ignoreWordsFile": "cspell.ignore.txt",
+
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    ".git/**",
+    ".husky/**",
+    ".vscode/**",
+    "package-lock.json",
+    "**/*.svg",
+    "**/*.ico"
+  ],
+
+  "useGitignore": true,
+  "caseSensitive": false,
+  "noConfigSearch": true
+}
