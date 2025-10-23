@@ -1,13 +1,14 @@
 [![License: MIT+Attribution](https://img.shields.io/badge/license-MIT%2BAttribution-blue.svg)](./LICENSE)
 [![Build Status](https://github.com/mnmbeloved002-lang/prisma-enterprise/actions/workflows/ci.yml/badge.svg)](https://github.com/mnmbeloved002-lang/prisma-enterprise/actions/workflows/ci.yml)
 
-## [![License: MIT+Attribution](https://img.shields.io/badge/license-MIT%2BAttribution-blue.svg)](./LICENSE)
+# Prisma Enterprise — Foundation
 
 ### 🧾 License & Ownership
 
 **Licensed under MIT+Attribution 2025.1**  
 © 2025 **Shumik Dmitry Viktorovich (IksKlUziFF)**  
-_All rights to the project name **"PrismaEnterprise"** are reserved. Unauthorized use of the brand or code without attribution is prohibited._
+All rights to the project name **PrismaEnterprise** are reserved.  
+Unauthorized use of the brand or code without attribution is prohibited
 
 ---
 
