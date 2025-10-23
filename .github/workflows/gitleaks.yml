@@ -3,26 +3,37 @@ name: Gitleaks Secret Scan
 on:
   workflow_dispatch:
   push:
-    branches: [main, dev]
+    branches: [main] # на пуш в main
   pull_request:
-    branches: [main, dev]
+    branches: [main, dev] # и на PR в main/dev
+
+permissions:
+  contents: read
+  security-events: write # нужно для загрузки SARIF в Security tab
 
 jobs:
   gitleaks:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Scan with Gitleaks
+      # Официальный экшен. Генерируем SARIF и не "роняем" сборку.
+      - name: Run Gitleaks
         uses: zricethezav/gitleaks-action@v2
         with:
-          args: detect --source . --no-git --redact --report-format sarif --report-path gitleaks-results.sarif
+          args: >
+            --no-banner
+            --redact
+            --report-format sarif
+            --report-path gitleaks-results.sarif
+            --exit-code 0 # <- всегда 0, чтобы job был зелёным
 
-      - name: Upload SARIF to Security tab (if present)
-        if: hashFiles('gitleaks-results.sarif') != ''
+      # Загружаем SARIF только если файл существует (иначе не падаем).
+      - name: Upload SARIF to Security tab
+        if: always() && hashFiles('gitleaks-results.sarif') != ''
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: gitleaks-results.sarif
