@@ -1,71 +1,39 @@
-# 🧭 Project Setup — Prisma Enterprise Foundation
+# 🧱 Project Setup — Prisma Enterprise Foundation
 
-## 1. Системные требования
+## 📦 Среда и версии
 
-- Windows 10/11
-- Node.js LTS v22.20.0
-- npm 10.9.3
-- Git 2.51.1
+- Node.js 22 (фиксировано через `engines` и Volta)
+- NPM 10+
+- Настроены `.npmrc`, `.gitattributes`, `.vscode/extensions.json`
 
-## 2. Быстрый старт
+## 🧰 Контроль качества
 
-```bash
-git clone https://github.com/mnmbeloved002-lang/prisma-enterprise.git
-cd prisma-enterprise
-npm ci
-npm run dev
+- ESLint + Prettier + Simple Import Sort
+- TypeScript strict + `npm run typecheck`
+- CI (GitHub Actions): Lint → Typecheck → Build
+- Security Checks: lockfile-lint, pkg-lint, audit
+- CodeQL + Gitleaks для анализа уязвимостей
 
-3. Скрипты npm
+## 🧩 Dev Experience
 
-npm run dev — локальная разработка (Vite)
+- Commitizen отключён → стандартные commitlint правила
+- Husky v10-ready pre-commit hooks
+- CSpell орфография (рус+англ, tech словарь)
+- Dev Container: Node 22 + ESLint + Prettier
 
-npm run build — сборка продакшена
+## 🌿 Env & Конфиги
 
-npm run lint — ESLint 9 (flat config)
+- Пример `.env.example`
+- Игнор `.env.local` файлов в git
 
+## 📜 Документация
 
-4. Хуки Git (Husky + lint-staged)
+- LICENSE (MIT+Attribution)
+- README с бейджами
+- ADR-0001: Lint & CI Strategy
+- CODEOWNERS: автоназначение ревьюера
 
-Хуки лежат в .husky/
+---
 
-На Windows оставляем вариант с bash-скриптами; предупреждения "DEPRECATED" допустимы (v9).
-
-pre-commit запускает lint-staged, commit-msg — commitlint.
-
-
-5. CI (GitHub Actions)
-
-Файл: .github/workflows/ci.yml
-
-Триггеры: push/pull_request для dev, main и ручной workflow_dispatch
-
-Шаги: checkout → setup-node 22 → npm ci → npm run build
-
-
-6. Частые проблемы
-
-Нет прав на hooks: проверь наличие файлов в .husky/ и что они в репо.
-
-ESLint ругается на плагины-массив: у нас уже flat-config, плагины — объект.
-
-Actions не запускается вручную: проверь наличие блока workflow_dispatch в ci.yml.
-
-
-7. Коммиты по Conventional Commits
-
-Примеры: feat(ui): add card, fix(ci): pin node 22, chore(deps): update.
-
-```
-
-## Запуск полного набора проверок
-
-`bash
-npm run sec:check && npm run lint && npm run typecheck && npm run build
-`
-
-## Требования к Pull Request
-
-- Проходит
-  pm run check и security bundle.
-- Если менялись процессы/скрипты — обновить README/SETUP.
-- Существенные решения фиксировать в docs/adr/.
+✅ **Фаза 0 завершена**  
+Готово к переходу в **Фазу 1 — Development Infrastructure**

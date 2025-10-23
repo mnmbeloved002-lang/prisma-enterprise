@@ -1,8 +1,19 @@
-# Changelog
+# 🧾 CHANGELOG — Prisma Enterprise Foundation
 
-## 0.0.0 – 2025-10-23
+## [0.0.1] — 2025-10-23
 
-- CI: lint + typecheck + build; security bundle (lockfile, pkg, audit)
-- CodeQL включён; Gitleaks через официальную action + SARIF
-- Reproducibility: .npmrc, .gitattributes, engines; VS Code recommendations
-- README/License обновлены; добавлены PR Template, CODEOWNERS, ADR-0001
+### Added
+
+- Reproducible environment (Node 22, npm 10, Volta)
+- CI workflows (lint, typecheck, build)
+- Security bundle (lockfile-lint, pkg-lint, audit)
+- CodeQL + Gitleaks integration
+- Commit linting & Husky hooks
+- CSpell multi-dict (ru+en+tech)
+- DevContainer setup
+- ADR-0001, CODEOWNERS, LICENSE
+
+### Status
+
+Фаза 0 — фундамент полностью построен.  
+Система стабильна, надёжна, воспроизводима.
