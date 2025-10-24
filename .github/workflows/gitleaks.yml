@@ -1,36 +1,42 @@
 name: Gitleaks Secret Scan
 
 on:
-  push:
-    branches: [main, dev]
   pull_request:
+    branches: [main, dev]
+  push:
     branches: [main, dev]
   workflow_dispatch:
 
 permissions:
   contents: read
+  pull-requests: read
   security-events: write
 
 jobs:
-  scan:
-    # Полностью пропускаем job для Dependabot, чтобы не было красных ранoв
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]' }}
+  gitleaks:
+    name: gitleaks
     runs-on: ubuntu-latest
-
+    continue-on-error: true # отчёт покажем, но PR не блокируем
     steps:
-      - name: Checkout
+      - name: Checkout full history (required for PR diff)
         uses: actions/checkout@v4
-
-      - name: Gitleaks scan (SARIF)
-        id: gitleaks
-        uses: gitleaks/gitleaks-action@v2
         with:
-          args: detect --source . --redact --report-format sarif --report-path gitleaks-results.sarif
-        # на всякий случай не фейлим пайплайн, даже если что-то упрётся в окружение
-        continue-on-error: true
+          fetch-depth: 0
 
-      - name: Upload SARIF to Security tab
-        if: ${{ hashFiles('gitleaks-results.sarif') != '' }}
+      - name: Install Gitleaks (v8.24.3)
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz -o gitleaks.tgz
+          tar -xzf gitleaks.tgz gitleaks
+          sudo mv gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Run Gitleaks (full repo)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gitleaks detect --redact --report-format sarif --report-path gitleaks.sarif || echo "Gitleaks finished with non-zero exit (reported), but job continues"
+
+      - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: gitleaks-results.sarif
+          sarif_file: gitleaks.sarif
