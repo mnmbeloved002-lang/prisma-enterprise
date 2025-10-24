@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-      - run: npm ci
+      - run: npm ci --include=dev
       - name: Run security bundle (lockfile + pkg + audit)
         run: npm run sec:check
 
