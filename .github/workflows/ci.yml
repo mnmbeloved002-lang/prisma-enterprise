@@ -12,10 +12,6 @@ permissions:
   pull-requests: read
   security-events: write
 
-concurrency:
-  group: ci-${{ github.ref }}-${{ github.workflow }}
-  cancel-in-progress: true
-
 jobs:
   security:
     name: Security checks
@@ -28,17 +24,18 @@ jobs:
           node-version: "22"
           cache: "npm"
       - run: npm ci --include=dev
-
       - name: Run security bundle (lockfile + pkg + audit)
         run: npm run sec:check
 
+      # 🔹 новый корректный блок Gitleaks
       - name: Gitleaks (scan)
-        uses: zricethezav/gitleaks-action@v3
+        uses: zricethezav/gitleaks-action@v2
         with:
           args: --redact --report-format sarif --report-path gitleaks.sarif
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # 🔹 выгружаем отчёт в Security (опционально)
       - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
