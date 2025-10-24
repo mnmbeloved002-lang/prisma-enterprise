@@ -1,0 +1,32 @@
+[
+  {
+    "id": "n-001",
+    "title": "OpenAI представила новую модель",
+    "preview": "Ключевые изменения в скорости и качестве генерации.",
+    "image": "https://picsum.photos/seed/ai/800/450",
+    "source": "OpenAI Blog",
+    "publishedAt": "2025-10-24T08:00:00Z",
+    "url": "https://example.com/openai-news",
+    "tags": ["AI", "release"]
+  },
+  {
+    "id": "n-002",
+    "title": "Vercel улучшил Edge Runtime",
+    "preview": "Новые возможности для SSR и кеширования.",
+    "image": "https://picsum.photos/seed/vercel/800/450",
+    "source": "Vercel",
+    "publishedAt": "2025-10-23T12:30:00Z",
+    "url": "https://example.com/vercel-edge",
+    "tags": ["vercel", "edge"]
+  },
+  {
+    "id": "n-003",
+    "title": "Telegram WebApps: обновления API",
+    "preview": "Улучшения темы и производительности в Mini Apps.",
+    "image": "https://picsum.photos/seed/telegram/800/450",
+    "source": "Telegram",
+    "publishedAt": "2025-10-22T17:15:00Z",
+    "url": "https://example.com/telegram-webapps",
+    "tags": ["telegram", "webapp"]
+  }
+]
