@@ -4,21 +4,40 @@ import React from 'react';
 
 import Header from '../components/Header';
 import NewsCard from '../components/NewsCard';
+import OfflineBanner from '../components/OfflineBanner';
 import SkeletonCard from '../components/SkeletonCard';
 import { loadNews } from '../services/news';
 import type { NewsItem } from '../types/news';
+import { getCache } from '../utils/cache';
 
 export default function Home() {
   const [news, setNews] = React.useState<NewsItem[] | null>(null);
   const [query, setQuery] = React.useState('');
+  const [isOnline, setIsOnline] = React.useState<boolean>(navigator.onLine);
 
+  // 0) мгновенный кэш
+  React.useEffect(() => {
+    const cached = getCache<NewsItem[]>('news.v1');
+    if (cached && !news) setNews(cached);
+  }, []);
+
+  // 1) загрузка с сети/кэша
   React.useEffect(() => {
     loadNews()
       .then(setNews)
-      .catch((e) => {
-        console.error('loadNews error:', e);
-        setNews([]);
-      });
+      .catch(() => setNews(prev => prev ?? []));
+  }, []);
+
+  // 2) реакция на online/offline
+  React.useEffect(() => {
+    const on = () => setIsOnline(true);
+    const off = () => setIsOnline(false);
+    window.addEventListener('online', on);
+    window.addEventListener('offline', off);
+    return () => {
+      window.removeEventListener('online', on);
+      window.removeEventListener('offline', off);
+    };
   }, []);
 
   const filtered = React.useMemo(() => {
@@ -32,6 +51,7 @@ export default function Home() {
 
   return (
     <div className='page'>
+      {!isOnline && <OfflineBanner />}
       <Header onSearch={setQuery} />
       <main className='container' role='main'>
         {!filtered
