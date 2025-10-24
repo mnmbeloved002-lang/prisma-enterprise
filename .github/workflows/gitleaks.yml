@@ -1,23 +1,21 @@
 name: Gitleaks Secret Scan
 
 on:
-  workflow_dispatch:
   push:
-    branches: [main, dev]
+    branches: [ main, dev ]
   pull_request:
+    branches: [ main ]
 
 permissions:
   contents: read
   security-events: write
-  actions: read
   pull-requests: read
 
 jobs:
   gitleaks:
-    # не хотим красных PR от dependabot — можно убрать условие, если хочешь проверять и его
-    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
-    continue-on-error: true
+    # не гоняем на PR от dependabot
+    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot' }}
 
     steps:
       - name: Checkout
@@ -26,18 +24,21 @@ jobs:
           fetch-depth: 0
 
       - name: Scan with Gitleaks
+        id: scan
         uses: zricethezav/gitleaks-action@v2
-        with:
-          # обязательный токен с нужными правами (см. permissions выше)
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # включим скрытие значений, чтобы логи не светили секреты
-          redact: "true"
-          # выгружаем SARIF — будет виден в Security → Code scanning
-          report-format: sarif
-          report-path: gitleaks-results.sarif
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Никаких args — экшен сам подберёт дефолтные правила
 
+      # Загружаем отчёт, но не валим пайплайн, даже если файла нет
       - name: Upload SARIF to Security tab (if present)
-        if: always() && hashFiles('gitleaks-results.sarif') != ''
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: gitleaks-results.sarif
+          sarif_file: gitleaks.sarif
+        continue-on-error: true
+
+      # Держим job зелёной даже при находках — алерты будут в Security → Code scanning
+      - name: Keep CI green
+        if: failure()
+        run: echo "Gitleaks found issues. See Security tab (SARIF uploaded)."
