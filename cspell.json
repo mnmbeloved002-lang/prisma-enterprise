@@ -15,8 +15,10 @@
     "@cspell/dict-git/cspell-ext.json"
   ],
 
-  "wordsFile": "cspell.words.txt",
-  "ignoreWordsFile": "cspell.ignore.txt",
+  "dictionaryDefinitions": [
+    { "name": "project-words", "path": "./cspell.words.txt", "addWords": true }
+  ],
+  "dictionaries": ["project-words"],
 
   "ignorePaths": [
     "node_modules/**",
