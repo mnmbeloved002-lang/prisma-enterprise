@@ -1,44 +1,43 @@
 name: Gitleaks Secret Scan
 
 on:
-  push:
-    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [main, dev]
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  pull-requests: read
   security-events: write
   pull-requests: read
 
 jobs:
   gitleaks:
+    name: gitleaks
     runs-on: ubuntu-latest
-    # не гоняем на PR от dependabot
-    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'dependabot' }}
-
+    continue-on-error: true # отчёт покажем, но PR не блокируем
     steps:
-      - name: Checkout
+      - name: Checkout full history (required for PR diff)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Scan with Gitleaks
-        id: scan
-        uses: zricethezav/gitleaks-action@v2
+      - name: Install Gitleaks (v8.24.3)
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz -o gitleaks.tgz
+          tar -xzf gitleaks.tgz gitleaks
+          sudo mv gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+
+      - name: Run Gitleaks (full repo)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # Никаких args — экшен сам подберёт дефолтные правила
+        run: |
+          gitleaks detect --redact --report-format sarif --report-path gitleaks.sarif || echo "Gitleaks finished with non-zero exit (reported), but job continues"
 
-      # Загружаем отчёт, но не валим пайплайн, даже если файла нет
-      - name: Upload SARIF to Security tab (if present)
-        if: always()
+      - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: gitleaks.sarif
-        continue-on-error: true
-
-      # Держим job зелёной даже при находках — алерты будут в Security → Code scanning
-      - name: Keep CI green
-        if: failure()
-        run: echo "Gitleaks found issues. See Security tab (SARIF uploaded)."
