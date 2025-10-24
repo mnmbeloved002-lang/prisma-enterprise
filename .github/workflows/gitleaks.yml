@@ -1,43 +1,32 @@
 name: Gitleaks Secret Scan
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches: [main, dev]
   push:
     branches: [main, dev]
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
-  security-events: write
-  actions: read
   pull-requests: read
+  security-events: write
 
 jobs:
   gitleaks:
-    # не хотим красных PR от dependabot — можно убрать условие, если хочешь проверять и его
-    if: github.actor != 'dependabot[bot]'
+    name: gitleaks
     runs-on: ubuntu-latest
-    continue-on-error: true
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Scan with Gitleaks
+      - name: Run Gitleaks
         uses: zricethezav/gitleaks-action@v2
         with:
-          # обязательный токен с нужными правами (см. permissions выше)
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # включим скрытие значений, чтобы логи не светили секреты
-          redact: "true"
-          # выгружаем SARIF — будет виден в Security → Code scanning
-          report-format: sarif
-          report-path: gitleaks-results.sarif
+          args: --redact --report-format sarif --report-path gitleaks.sarif
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload SARIF to Security tab (if present)
-        if: always() && hashFiles('gitleaks-results.sarif') != ''
+      - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: gitleaks-results.sarif
+          sarif_file: gitleaks.sarif
