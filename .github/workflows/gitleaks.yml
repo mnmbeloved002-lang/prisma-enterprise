@@ -19,7 +19,7 @@ jobs:
     continue-on-error: true # отчёт покажем, но PR не блокируем
     steps:
       - name: Checkout full history (required for PR diff)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
