@@ -1,0 +1,11 @@
+name: "✨ Feature request"
+description: Предложить улучшение
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: value
+    attributes: { label: Ценность, description: Зачем это нужно? Кому? }
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes: { label: Предложение, description: Как видишь реализацию }

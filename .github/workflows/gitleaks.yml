@@ -16,7 +16,7 @@ jobs:
   gitleaks:
     name: gitleaks
     runs-on: ubuntu-latest
-    continue-on-error: true # отчёт покажем, но PR не блокируем
+    continue-on-error: true
     steps:
       - name: Checkout full history (required for PR diff)
         uses: actions/checkout@v4
